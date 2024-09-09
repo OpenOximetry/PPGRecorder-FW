@@ -12,6 +12,7 @@ While this is not the forum to describe in detail the design and implementation 
 
 This library is proprietary to Springer Design, Inc. and the source code will not be released. The following is description of the library’s functionality and its API.
 The driver requires a Zephyr event semaphore to signal the main thread that data is available, this must be created in main.c and named max_event. When max_event is posted, the main thread must call max86171_read_fifo() to retrieve the available data from the MAX86171, failure to promptly this function will result in MAX86171 FIFO overflow errors. The API consists of the following functions:
+
 **int max86171_init( void )** – Initializes the MAX86171 to operate as follows:
 	86 frames per second
 	3 LED drives, Green\*, IR and Red defaulting to 10 milliamps of drive current
