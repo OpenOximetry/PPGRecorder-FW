@@ -1,0 +1,98 @@
+/*
+ * Copyright (c) 2020 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <nordic/nrf5340_cpunet_qkaa.dtsi>
+#include "sdirefox_nrf5340_cpunet-pinctrl.dtsi"
+
+/ {
+	model = "SDIRefOx NRF5340 Network";
+	compatible = "nordic,sdirefox-nrf5340-cpunet";
+
+	chosen {
+		zephyr,bt-hci-rpmsg-ipc = &ipc0;
+		zephyr,sram = &sram1;
+		zephyr,flash = &flash1;
+		zephyr,code-partition = &slot0_partition;
+	};
+
+	control {
+		compatible = "gpio-keys";
+		maxint1: maxint_1 {
+			gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH)>;
+			label = "MAX Int1";
+		};
+		maxint2: maxint_2 {
+			gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH)>;
+			label = "MAX Int2";
+		};
+		chrgctl: chrg_ctl {
+			gpios = <&gpio1 8 (GPIO_ACTIVE_HIGH)>;
+			label = "Charge Control";
+		};
+		testpt8: testpt_8 {
+			gpios = <&gpio0 28 (GPIO_ACTIVE_HIGH)>;
+			label = "Test Point 8";
+		};
+		testpt9: testpt_9 {
+			gpios = <&gpio0 29 (GPIO_ACTIVE_HIGH)>;
+			label = "Test Point 9";
+		};
+		testpt10: testpt_10 {
+			gpios = <&gpio0 30 (GPIO_ACTIVE_HIGH)>;
+			label = "Test Point 10";
+		};
+		testpt11: testpt_11 {
+			gpios = <&gpio0 31 (GPIO_ACTIVE_HIGH)>;
+			label = "Test Point 11";
+		};
+	};
+};
+
+&gpiote {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&flash1 {
+
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x00000000 0xc000>;
+		};
+		slot0_partition: partition@c000 {
+			label = "image-0";
+			reg = <0x0000C000 0x12000>;
+		};
+		slot1_partition: partition@1e000 {
+			label = "image-1";
+			reg = <0x0001E000 0x12000>;
+		};
+		scratch_partition: partition@30000 {
+			label = "image-scratch";
+			reg = <0x00030000 0xa000>;
+		};
+		storage_partition: partition@3a000 {
+			label = "storage";
+			reg = <0x0003a000 0x6000>;
+		};
+	};
+};
+
+/* Include shared RAM configuration file */
+#include "nrf5340_shared_sram_planning_conf.dts"
