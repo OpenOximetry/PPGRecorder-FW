@@ -291,7 +291,7 @@ struct uart_data_t
 bool uart_dump;
 #define START_UART		0x11			// Ctrl-Q
 #define STOP_UART		0x13			// Ctrl-S
-char tx_buff[2048];						// UART transmit buffer
+char tx_buff[4096];						// UART transmit buffer
 
 static const struct bt_data ad[] =
 {
@@ -559,7 +559,7 @@ int uart_init(void)
 	{
 		pos = snprintf( tx->data,
 						sizeof( tx->data ),
-						"SDI PPG Recorder V2.00\r\n");
+						"SDI PPG Recorder V2.10\r\n");
 
 		if( (pos < 0) || (pos >= sizeof( tx->data )) )
 		{
